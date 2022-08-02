@@ -32,8 +32,9 @@ jobs:
     strategy:
       matrix:
         include:
-        - name: bionic
-        - name: focal
+#         - name: bionic
+#         - name: focal
+        - name: trusty
     steps:
     - name: configure debian and git
       run: |
