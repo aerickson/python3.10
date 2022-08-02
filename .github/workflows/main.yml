@@ -11,8 +11,8 @@ jobs:
     steps:
     - name: configure git
       run: |
-        git config --global user.name 'Anthony Sottile'
-        git config --global user.email asottile+deadsnakes@umich.edu
+        git config --global user.name 'Andrew Erickson'
+        git config --global user.email aerickson@mozilla.com
     - name: clone target
       uses: actions/checkout@v2
       with:
@@ -37,10 +37,10 @@ jobs:
     steps:
     - name: configure debian and git
       run: |
-        echo 'DEBEMAIL=asottile+deadsnakes@umich.edu' >> $GITHUB_ENV
-        echo 'DEBFULLNAME=Anthony Sottile (deadsnakes)' >> $GITHUB_ENV
-        git config --global user.name 'Anthony Sottile'
-        git config --global user.email asottile+deadsnakes@umich.edu
+        echo 'DEBEMAIL=aerickson@mozilla.com' >> $GITHUB_ENV
+        echo 'DEBFULLNAME=Andrew Erickson (aerickson)' >> $GITHUB_ENV
+        git config --global user.name 'Andrew Erickson'
+        git config --global user.email aerickson@mozilla.com
     - name: clone target
       uses: actions/checkout@v2
       with:
@@ -57,17 +57,17 @@ jobs:
       run: pip install gbp==0.9.24
     - name: install devscripts
       run: sudo apt-get update -qq && sudo apt-get install -y devscripts
-    - name: import gpg key
-      run: |
-        install --directory ~/.gnupg --mode 700
-        base64 -d <<< '${{ secrets.GPG_PUBLIC }}' > ~/.gnupg/pubring.gpg
-        base64 -d <<< '${{ secrets.GPG_SECRET }}' > ~/.gnupg/secring.gpg
-        chmod 600 ~/.gnupg/*
+#     - name: import gpg key
+#       run: |
+#         install --directory ~/.gnupg --mode 700
+#         base64 -d <<< '${{ secrets.GPG_PUBLIC }}' > ~/.gnupg/pubring.gpg
+#         base64 -d <<< '${{ secrets.GPG_SECRET }}' > ~/.gnupg/secring.gpg
+#         chmod 600 ~/.gnupg/*
     - name: update branch
       run: SHELL=false runbooks/refresh-patches --repo target ubuntu/${{ matrix.name }}
     - name: build
       run: mkdir dist && cd target && ../runbooks/build
     - name: test
       run: runbooks/quick-test --distrib-codename ${{ matrix.name }} --dist-dir dist --src-dir target
-    - name: release
-      run: cd target && ../runbooks/release
+#     - name: release
+#       run: cd target && ../runbooks/release
